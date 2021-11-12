@@ -13,6 +13,7 @@ python3.6 -m venv test --> create the test env
 
 source test/bin/activate --> enter the test env
 
+#####################################################################################
 
 mysql-installation
 *******************
@@ -20,6 +21,10 @@ mysql-installation
 sudo apt install mysql-server  --> install mysql-installation
 
 CREATE USER 'test'@'localhost' IDENTIFIED BY 'zippyops';  ---> create the user (test)
+
+GRANT ALL PRIVILEGES ON *.* TO 'test4'@'%' identified by 'zippyops'; ---> grant all permission to user (test4)
+
+////djnago permission not work but can able to login form remote machine
 
 GRANT ALL PRIVILEGES ON * . * TO 'test'@'localhost';  ---> grant all permission to user (test)
 (or)
@@ -40,6 +45,23 @@ command
 
 SELECT user(); --> display the current user
 
+###########################################################################
+
+
+
+If use change anything in the models.py 
+***************************************
+
+python3 manage.py makemigrations
+
+python3 manage.py  migrate
+
+create the super user in django
+********************************
+
+python3 manage.py createsuperuser
+
+############################################################################
 
 Mysql-Client
 *************
@@ -50,7 +72,13 @@ sudo apt-get install python3-dev default-libmysqlclient-dev build-essential
 
 pip install mysqlclient
 
+system installation
+*******************
+apt-get install mysql-client
+
 mysql -h 192.168.5.10 -u test -pzippyops
+
+#############################################################################
 
 project Ssample
 ****************
