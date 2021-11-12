@@ -1,5 +1,5 @@
-installation
-************
+django installation
+*********************
 
 sudo apt install python3-pip
 
@@ -14,7 +14,43 @@ python3.6 -m venv test --> create the test env
 source test/bin/activate --> enter the test env
 
 
+mysql-installation
+*******************
 
+sudo apt install mysql-server  --> install mysql-installation
+
+CREATE USER 'test'@'localhost' IDENTIFIED BY 'zippyops';  ---> create the user (test)
+
+GRANT ALL PRIVILEGES ON * . * TO 'test'@'localhost';  ---> grant all permission to user (test)
+(or)
+grant all privileges on mydb.* to test2@'%' identified by 'zippyops';
+(or)
+GRANT ALL ON test3.* TO ''@'%' IDENTIFIED BY 'zippyops';
+(or)
+GRANT ALL PRIVILEGES ON *.* TO 'test4'@'%' identified by 'zippyops';
+
+FLUSH PRIVILEGES;
+
+vi /etc/mysql/mysql.conf.d/mysqld.cnf  ---> command the     #bind-address           = 127.0.0.1
+
+systemctl restart mysql
+
+command 
+*******
+
+SELECT user(); --> display the current user
+
+
+Mysql-Client
+*************
+
+Install mysqsl client on django django install (test env)
+
+sudo apt-get install python3-dev default-libmysqlclient-dev build-essential
+
+pip install mysqlclient
+
+mysql -h 192.168.5.10 -u test -pzippyops
 
 project Ssample
 ****************
