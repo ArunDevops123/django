@@ -1,0 +1,172 @@
+django sample api and datbases table creation
+**********************************************
+
+one app
+********
+
+views.py   ---> define the api function
+*********
+
+from django.shortcuts import render
+from django.http import HttpResponse
+from rest_framework import viewsets
+
+from django.contrib.auth.models import User, Group
+from rest_framework import viewsets
+from rest_framework import permissions
+from .serializers import HeroSerializer,LinuxSerializer
+from .models import Hero,Linux
+
+
+# Create your views here.
+
+# def page1(request):
+
+#     return HttpResponse ('Hello world')
+
+
+class HeroViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = Hero.objects.all() #.order_by('value')
+    serializer_class = HeroSerializer
+    # permission_classes = [permissions.IsAuthenticated]
+
+
+class LinuxViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = Linux.objects.all() #.order_by('value')
+    serializer_class = LinuxSerializer
+	
+#################################################################################################################
+	
+urls.py   ---> define the url
+********
+
+"""sample URL Configuration
+
+The `urlpatterns` list routes URLs to views. For more information please see:
+    https://docs.djangoproject.com/en/3.2/topics/http/urls/
+Examples:
+Function views
+    1. Add an import:  from my_app import views
+    2. Add a URL to urlpatterns:  path('', views.home, name='home')
+Class-based views
+    1. Add an import:  from other_app.views import Home
+    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
+Including another URLconf
+    1. Import the include() function: from django.urls import include, path
+    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+"""
+from django.contrib import admin
+from django.urls import path
+from django.conf.urls import include, url
+from . import views
+from rest_framework import routers
+
+router = routers.DefaultRouter()
+router.register(r'page1', views.HeroViewSet, basename='page1')
+router.register(r'page2', views.LinuxViewSet, basename='page2')
+
+urlpatterns = [
+    path('', include(router.urls))
+]
+
+#################################################################################################################
+
+models.py  --> used for database activity, create the table and data 
+**********
+
+from django.db import models
+
+# Create your models here.
+
+class Hero(models.Model):
+    name = models.CharField(max_length=1050, null=True, blank=True)
+    value = models.CharField(max_length=1050, null=True, blank=True)
+
+    class Meta:
+        db_table="Hero"
+
+    def __str__(self):
+        x = '%s :: %s' % (self.id, self.name)
+        return x  
+
+
+class Linux(models.Model):
+    os_name = models.CharField(max_length=1050, null=True, blank=True)
+    version = models.CharField(max_length=1050, null=True, blank=True)
+
+    class Meta:
+        db_table="Linux"
+
+    def __str__(self):
+        x = '%s :: %s' % (self.id, self.os_name)
+        return x  
+
+#################################################################################################################		
+		
+serializers.py  --> conver the data into json formate for easy frontend use.
+**************
+
+from rest_framework import serializers
+from .models import Hero,Linux
+from django.contrib.auth.models import User, Group
+
+class HeroSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Hero
+        fields = ['name', 'value']
+
+
+class LinuxSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Linux
+        fields = ['os_name', 'version']
+		
+#################################################################################################################		
+
+admin.py  --> Then an only it will dispaly the content in the django dash board.
+********
+
+from django.contrib import admin
+from .models import Hero,Linux 
+
+admin.site.register(Hero)
+admin.site.register(Linux)
+
+#################################################################################################################
+
+project sample urls.py   --> give the app entry inton  the main project.
+***********************
+
+"""sample URL Configuration
+
+The `urlpatterns` list routes URLs to views. For more information please see:
+    https://docs.djangoproject.com/en/3.2/topics/http/urls/
+Examples:
+Function views
+    1. Add an import:  from my_app import views
+    2. Add a URL to urlpatterns:  path('', views.home, name='home')
+Class-based views
+    1. Add an import:  from other_app.views import Home
+    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
+Including another URLconf
+    1. Import the include() function: from django.urls import include, path
+    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+"""
+from django.contrib import admin
+from django.urls import path, include
+
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('api-auth/',include('rest_framework.urls')),
+    path('one/',include('one.urls')),
+    
+]
+		
+		
