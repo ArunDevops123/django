@@ -78,9 +78,16 @@ apt-get install mysql-client
 
 mysql -h 192.168.5.10 -u test -pzippyops
 
+rest-frame work
+****************
+
+pip install djangorestframework
+ 
+
+ 
 #############################################################################
 
-project Ssample
+project Ssample-main
 ****************
 
 urls.py
