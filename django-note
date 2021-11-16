@@ -82,6 +82,19 @@ rest-frame work
 ****************
 
 pip install djangorestframework
+
+
+sample query
+*************
+CREATE DATABASE testapp CHARACTER SET UTF8;
+
+CREATE USER test@localhost IDENTIFIED BY 'zippyops';
+
+GRANT ALL PRIVILEGES ON testapp.* TO test@localhost;
+
+GRANT ALL ON testapp.* to 'test'@'%' IDENTIFIED BY 'zippyops' WITH GRANT OPTION;
+
+FLUSH PRIVILEGES;
  
 
  
